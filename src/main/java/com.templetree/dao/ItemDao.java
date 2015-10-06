@@ -114,25 +114,23 @@ public class ItemDao implements ItemDaoIntf {
     }
 
     @Override
-    public Item insertItem(Item item) {
+    public void insertItem(Item item) {
         String sql = "INSERT INTO ITEMS(barcode, category, itemName, salesPrice, purchasePrice, createdDate, quantity, updatedDate) VALUES (?,?,?,?,?,?,?,?)";
-        Integer id = jdbcTemplate.update(sql, new Object[]{item.getBarcode(), item.getCategory(), item.getItemName()
-        , item.getSalesPrice(), item.getPurchasePrice(), item.getCreatedDate(), item.getQuantity(), item.getUpdatedDate()});
-
-        return getItemById(id);
+        jdbcTemplate.update(sql, new Object[]{item.getBarcode(), item.getCategory(), item.getItemName()
+                , item.getSalesPrice(), item.getPurchasePrice(), new Date((new java.util.Date()).getTime()), item.getQuantity(), new Date((new java.util.Date()).getTime())});
     }
 
     @Override
     public Item updateItem(Item item) {
         String sql = "UPDATE ITEMS SET barcode=?, category=?, itemName=?, salesPrice=?, purchasePrice=?, createdDate=?, quantity=?, updatedDate=? where id=?)";
-        Integer id = jdbcTemplate.update(sql, new Object[]{item.getBarcode(), item.getCategory(), item.getItemName(),
-                item.getSalesPrice(), item.getPurchasePrice(), item.getCreatedDate(), item.getQuantity(), item.getUpdatedDate(), item.getId()});
+        jdbcTemplate.update(sql, new Object[]{item.getBarcode(), item.getCategory(), item.getItemName(),
+                item.getSalesPrice(), item.getPurchasePrice(), item.getCreatedDate(), item.getQuantity(), new Date((new java.util.Date()).getTime()), item.getId()});
 
-        return getItemById(id);
+        return getItemById(item.getId());
     }
 
     @Override
-    public Item deleteItemById(Integer id) {
-        return null;
+    public void deleteItemById(Integer id) {
+        System.out.println("ItemDao::deleteItemById -- Not yet Implemented.");
     }
 }

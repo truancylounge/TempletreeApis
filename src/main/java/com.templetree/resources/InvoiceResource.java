@@ -1,28 +1,27 @@
 package com.templetree.resources;
 
-import com.templetree.model.Item;
-import com.templetree.service.intf.ItemWebServiceIntf;
+import com.templetree.model.Invoice;
+import com.templetree.service.InvoiceWebService;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import static org.slf4j.LoggerFactory.getLogger;
-
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+
 import java.util.List;
+
+import static org.slf4j.LoggerFactory.getLogger;
 
 
 /**
- * Created by Lalith on 10/1/15.
+ * Created by Lalith on 10/6/15.
  */
-
-
-@Path("/items")
-public class ItemResource {
+@Path("/invoices")
+public class InvoiceResource {
     private static final Logger LOGGER = getLogger(ItemResource.class);
 
     @Autowired
-    private ItemWebServiceIntf itemWebService;
+    private InvoiceWebService invoiceWebService;
 
     /**
      * Method handling HTTP GET requests. The returned object will be sent to
@@ -41,30 +40,30 @@ public class ItemResource {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public List<Item> getAllItems() {
-        System.out.print("Inside GET All Items");
-        return itemWebService.getAllItems();
+    public List<Invoice> getAllInvoices() {
+        System.out.print("Inside GET All Invoices");
+        return invoiceWebService.getAllInvoices();
     }
 
     @GET
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Item getItem(@PathParam("id") Integer id) {
-        System.out.print("Inside GET Item by Id: " + id);
-        return itemWebService.getItemById(id);
+    public Invoice getInvoice(@PathParam("id") Integer id) {
+        System.out.print("Inside GET Invoice by Id: " + id);
+        return invoiceWebService.getInvoiceById(id);
     }
     @POST
     @Produces(MediaType.APPLICATION_JSON)
-    public void createItem(Item item) {
-        System.out.print("Inside POST::createItem");
-        itemWebService.createItem(item);
+    public void createInvoice(Invoice invoice) {
+        System.out.print("Inside POST::createInvoice");
+        invoiceWebService.createInvoice(invoice);
     }
 
     @PUT
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Item updateItem(@PathParam("id") Integer id, Item item) {
-        System.out.print("Inside PUT Item. Updating Item with barcode: " + item.getBarcode());
-        return itemWebService.updateItem(item);
+    public Invoice updateItem(@PathParam("id") Integer id, Invoice invoice) {
+        System.out.print("Inside PUT Item. Updating Invoice with id: " + invoice.getId());
+        return invoiceWebService.updateInvoice(invoice);
     }
 }

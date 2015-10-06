@@ -14,6 +14,7 @@ public class Item {
     private Double salesPrice;
     private Double purchasePrice;
     private Integer quantity;
+    private Double total; // field is quantity * purchase price used in Invoices
     private Timestamp createdDate;
     private Timestamp updatedDate;
 
@@ -91,6 +92,14 @@ public class Item {
 
     public void setUpdatedDate(Timestamp updatedDate) {
         this.updatedDate = updatedDate;
+    }
+
+    public Double getTotal() {
+        return total;
+    }
+
+    public void setTotal(Double total) {
+        this.total = total;
     }
 
     @Override

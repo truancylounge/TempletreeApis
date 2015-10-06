@@ -23,7 +23,7 @@ import java.util.List;
 public class ItemListExcelWebService implements ExcelWebServiceIntf {
 
     @Autowired
-    ItemDaoIntf itemDao;
+    private ItemDaoIntf itemDao;
 
     public ItemListExcelWebService() {
 

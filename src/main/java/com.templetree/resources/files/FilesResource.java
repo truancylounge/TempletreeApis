@@ -1,7 +1,9 @@
 package com.templetree.resources.files;
 
+import com.templetree.model.Invoice;
 import com.templetree.model.Item;
 import com.templetree.service.intf.ExcelWebServiceIntf;
+import com.templetree.service.intf.InvoicesExcelWebServiceIntf;
 import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 import org.glassfish.jersey.media.multipart.FormDataParam;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +26,9 @@ public class FilesResource {
 
     @Autowired
     private ExcelWebServiceIntf itemListExcelWebService;
+
+    @Autowired
+    private InvoicesExcelWebServiceIntf invoicesExcelWebService;
 
 
     @POST
@@ -50,6 +55,34 @@ public class FilesResource {
         return itemListExcelWebService.readExcel(uploadFilePath);
     }
 
+    @POST
+    @Path("/upload/invoices")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.MULTIPART_FORM_DATA)
+    public Invoice uploadInvoices(
+            @FormDataParam("uploadFile") InputStream fileInputStream,
+            @FormDataParam("uploadFile") FormDataContentDisposition fileFormDataContentDisposition) {
+
+        System.out.println("Invoices File Upload in progress!!");
+        String fileName  = null;
+        String uploadFilePath = null;
+
+        try {
+            fileName = fileFormDataContentDisposition.getFileName();
+            uploadFilePath = writeToFileServer(fileInputStream, fileName);
+        }
+        catch(IOException ioe){
+            ioe.printStackTrace();
+        }
+        finally{
+            // release resources, if any
+        }
+
+        return invoicesExcelWebService.readExcel(uploadFilePath, fileName);
+    }
+
+
+
     /**
      * write input stream to file server
      * @param inputStream
@@ -58,6 +91,7 @@ public class FilesResource {
      */
     private String writeToFileServer(InputStream inputStream, String fileName) throws IOException {
 
+        System.out.println("Writing Excel file to server.");
         OutputStream outputStream = null;
         String qualifiedUploadFilePath = UPLOAD_FILE_SERVER + fileName;
 

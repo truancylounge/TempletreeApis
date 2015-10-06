@@ -12,7 +12,7 @@ public interface ItemDaoIntf {
     public Item getItemById(Integer id);
     public List<Item> getAllItems();
     public void insertItems(List<Item> items);
-    public Item insertItem(Item item);
+    public void insertItem(Item item);
     public Item updateItem(Item item);
-    public Item deleteItemById(Integer id);
+    public void deleteItemById(Integer id);
 }
