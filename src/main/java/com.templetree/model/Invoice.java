@@ -1,23 +1,47 @@
 package com.templetree.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import org.hibernate.annotations.Fetch;
+
+import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.List;
 
 /**
  * Created by Lalith on 10/6/15.
  */
+@Entity
+@Table(name = "invoices")
 public class Invoice {
 
+    private static final long serialVersionUID = 1L;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", unique = true, nullable = false)
     private Integer id;
+    @Column(name = "invoiceName")
     private String invoiceName;
+    @Column(name = "subTotal")
     private Double subTotal;
+    @Column(name = "shipping")
     private Double shipping;
+    @Column(name = "packing")
     private Double packing;
+    @Column(name = "grandTotal")
     private Double grandTotal;
+    @Column(name = "createdDate", insertable = true, updatable = false)
     private Timestamp createdDate;
+    @Column(name = "updatedDate")
     private Timestamp updatedDate;
 
-    private List<Item> itemList;
+    @JsonManagedReference
+    @OneToMany(cascade=CascadeType.ALL, mappedBy="invoice")
+    private List<InvoicesItems> invoicesItemsList;
+
+    public Invoice() {
+
+    }
 
     public Integer getId() {
         return id;
@@ -83,11 +107,11 @@ public class Invoice {
         this.updatedDate = updatedDate;
     }
 
-    public List<Item> getItemList() {
-        return itemList;
+    public List<InvoicesItems> getInvoicesItemsList() {
+        return invoicesItemsList;
     }
 
-    public void setItemList(List<Item> itemList) {
-        this.itemList = itemList;
+    public void setInvoicesItemsList(List<InvoicesItems> invoicesItemsList) {
+        this.invoicesItemsList = invoicesItemsList;
     }
 }

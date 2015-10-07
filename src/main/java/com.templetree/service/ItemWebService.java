@@ -7,14 +7,16 @@ import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import static org.slf4j.LoggerFactory.getLogger;
-
+import javax.transaction.Transactional;
 import java.util.List;
+
+import static org.slf4j.LoggerFactory.getLogger;
 
 /**
  * Created by Lalith on 10/4/15.
  */
 @Service("itemWebService")
+@Transactional
 public class ItemWebService implements ItemWebServiceIntf {
 
     private static final Logger LOGGER = getLogger(ItemWebService.class);
@@ -33,8 +35,8 @@ public class ItemWebService implements ItemWebServiceIntf {
     }
 
     @Override
-    public void createItem(Item item) {
-        itemDao.insertItem(item);
+    public List<Item> createItems(List<Item> items) {
+        return itemDao.insertItems(items);
     }
 
     @Override

@@ -1,7 +1,6 @@
 package com.templetree.service.intf;
 
 import com.templetree.model.Item;
-import com.templetree.model.User;
 
 import java.util.List;
 

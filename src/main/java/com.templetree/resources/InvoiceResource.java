@@ -1,13 +1,12 @@
 package com.templetree.resources;
 
 import com.templetree.model.Invoice;
-import com.templetree.service.InvoiceWebService;
+import com.templetree.service.intf.InvoiceWebServiceIntf;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
-
 import java.util.List;
 
 import static org.slf4j.LoggerFactory.getLogger;
@@ -21,7 +20,7 @@ public class InvoiceResource {
     private static final Logger LOGGER = getLogger(ItemResource.class);
 
     @Autowired
-    private InvoiceWebService invoiceWebService;
+    private InvoiceWebServiceIntf invoiceWebService;
 
     /**
      * Method handling HTTP GET requests. The returned object will be sent to
@@ -54,9 +53,9 @@ public class InvoiceResource {
     }
     @POST
     @Produces(MediaType.APPLICATION_JSON)
-    public void createInvoice(Invoice invoice) {
+    public Invoice createInvoice(Invoice invoice) {
         System.out.print("Inside POST::createInvoice");
-        invoiceWebService.createInvoice(invoice);
+        return invoiceWebService.createInvoice(invoice);
     }
 
     @PUT

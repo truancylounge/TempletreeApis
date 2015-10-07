@@ -3,6 +3,7 @@ package com.templetree.service;
 import com.templetree.dao.intf.ItemDaoIntf;
 import com.templetree.model.Item;
 import com.templetree.service.intf.ExcelWebServiceIntf;
+import com.templetree.service.intf.ItemWebServiceIntf;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -23,7 +24,7 @@ import java.util.List;
 public class ItemListExcelWebService implements ExcelWebServiceIntf {
 
     @Autowired
-    private ItemDaoIntf itemDao;
+    private ItemWebServiceIntf itemWebService;
 
     public ItemListExcelWebService() {
 
@@ -82,9 +83,8 @@ public class ItemListExcelWebService implements ExcelWebServiceIntf {
         } catch (Exception ex) {
             ex.printStackTrace();
         }
-        itemDao.insertItems(items);
 
-        return itemDao.getAllItems();
+        return itemWebService.createItems(items);
     }
 
 }

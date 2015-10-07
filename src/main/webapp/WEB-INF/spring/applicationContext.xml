@@ -12,5 +12,4 @@
 
     <context:component-scan base-package="com.templetree"/>
 
-
 </beans>

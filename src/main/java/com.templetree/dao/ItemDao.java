@@ -2,17 +2,12 @@ package com.templetree.dao;
 
 import com.templetree.dao.intf.ItemDaoIntf;
 import com.templetree.model.Item;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.BatchPreparedStatementSetter;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
-import javax.sql.DataSource;
-import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -23,114 +18,54 @@ import java.util.List;
 public class ItemDao implements ItemDaoIntf {
 
     @Autowired
-    private DataSource dataSource;
+    private SessionFactory sessionFactory;
 
-
-    @Autowired
-    private JdbcTemplate jdbcTemplate;
+    public Session getCurrentSession() {
+        return sessionFactory.getCurrentSession();
+    }
 
     @Override
     public Item getItemById(Integer id) {
-        System.out.println("Entering ItemDao::getItemById");
-        String sql = "select * from items where id = ?" ;
-         Item item = jdbcTemplate.queryForObject(sql, new Object[]{id}, new RowMapper<Item>() {
-            @Override
-            public Item mapRow(ResultSet resultSet, int i) throws SQLException {
-                Item item = new Item();
-                item.setId(resultSet.getInt("id"));
-                item.setCategory(resultSet.getString("category"));
-                item.setBarcode(resultSet.getString("barcode"));
-                item.setItemName(resultSet.getString("itemName"));
-                item.setSalesPrice(resultSet.getDouble("salesPrice"));
-                item.setPurchasePrice(resultSet.getDouble("purchasePrice"));
-                item.setCreatedDate(resultSet.getTimestamp("createdDate"));
-                item.setQuantity(resultSet.getInt("quantity"));
-                item.setUpdatedDate(resultSet.getTimestamp("updatedDate"));
-
-                return item;
-
-            }
-        });
-
-        return item;
+        return (Item) getCurrentSession().get(Item.class, id);
     }
 
     @Override
     public List<Item> getAllItems() {
-        String sql = "select * from items";
-
-        List<Item> itemList = jdbcTemplate.query(sql, new RowMapper<Item>() {
-
-            public Item mapRow(ResultSet resultSet, int rowNum) throws SQLException {
-                Item item = new Item();
-                item.setId(resultSet.getInt("id"));
-                item.setCategory(resultSet.getString("category"));
-                item.setBarcode(resultSet.getString("barcode"));
-                item.setItemName(resultSet.getString("itemName"));
-                item.setSalesPrice(resultSet.getDouble("salesPrice"));
-                item.setPurchasePrice(resultSet.getDouble("purchasePrice"));
-                item.setCreatedDate(resultSet.getTimestamp("createdDate"));
-                item.setQuantity(resultSet.getInt("quantity"));
-                item.setUpdatedDate(resultSet.getTimestamp("updatedDate"));
-
-                return item;
-            }
-        });
-
-        return itemList;
+        return getCurrentSession().createCriteria(Item.class).list();
     }
 
     @Override
-    public void insertItems(List<Item> items) {
-
+    public List<Item> insertItems(List<Item> items) {
         List<Item> dbItems = getAllItems();
-        // Removing items already present in the DB.
         items.removeAll(dbItems);
-        final List<Item> newItems = items;
 
-        String sql = "INSERT INTO ITEMS(barcode, category, itemName, salesPrice, purchasePrice, createdDate, quantity, updatedDate) VALUES (?,?,?,?,?,?,?,?)";
+        List<Item> returnedItems = new ArrayList<Item>();
+        for(Item item : items) {
+            Integer i = Integer.parseInt(getCurrentSession().save(item).toString());
+            // Using evict to remove the session object and force Hibernate to do a select
+            // Without evict, hibernate isn't doing a select for get() and returning the object in memory after insert
+            getCurrentSession().evict(item);
+            Item itemDb = (Item) getCurrentSession().get(Item.class, i);
+            returnedItems.add(itemDb);
+        }
+        System.out.println("Number of Items inserted: " + items.size());
 
-        jdbcTemplate.batchUpdate(sql, new BatchPreparedStatementSetter() {
-            @Override
-            public void setValues(PreparedStatement preparedStatement, int i) throws SQLException {
-                Item item = newItems.get(i);
-                preparedStatement.setString(1, item.getBarcode());
-                preparedStatement.setString(2, item.getCategory());
-                preparedStatement.setString(3, item.getItemName());
-                preparedStatement.setDouble(4, (item.getSalesPrice() == null ? 0 : item.getSalesPrice()));
-                preparedStatement.setDouble(5, (item.getPurchasePrice() == null ? 0 : item.getPurchasePrice()));
-                preparedStatement.setDate(6, new Date((new java.util.Date()).getTime()));
-                preparedStatement.setInt(7, item.getQuantity() == null ? 0 : item.getQuantity());
-                preparedStatement.setDate(8, new Date((new java.util.Date()).getTime()));
-            }
+        return returnedItems;
 
-            @Override
-            public int getBatchSize() {
-                return newItems.size();
-            }
-        });
-
-        System.out.println("Number of Items inserted: " + newItems.size());
     }
 
     @Override
     public void insertItem(Item item) {
-        String sql = "INSERT INTO ITEMS(barcode, category, itemName, salesPrice, purchasePrice, createdDate, quantity, updatedDate) VALUES (?,?,?,?,?,?,?,?)";
-        jdbcTemplate.update(sql, new Object[]{item.getBarcode(), item.getCategory(), item.getItemName()
-                , item.getSalesPrice(), item.getPurchasePrice(), new Date((new java.util.Date()).getTime()), item.getQuantity(), new Date((new java.util.Date()).getTime())});
+
     }
 
     @Override
     public Item updateItem(Item item) {
-        String sql = "UPDATE ITEMS SET barcode=?, category=?, itemName=?, salesPrice=?, purchasePrice=?, createdDate=?, quantity=?, updatedDate=? where id=?)";
-        jdbcTemplate.update(sql, new Object[]{item.getBarcode(), item.getCategory(), item.getItemName(),
-                item.getSalesPrice(), item.getPurchasePrice(), item.getCreatedDate(), item.getQuantity(), new Date((new java.util.Date()).getTime()), item.getId()});
-
-        return getItemById(item.getId());
+        return null;
     }
 
     @Override
     public void deleteItemById(Integer id) {
-        System.out.println("ItemDao::deleteItemById -- Not yet Implemented.");
+
     }
 }

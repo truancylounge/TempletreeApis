@@ -5,11 +5,11 @@ import com.templetree.service.intf.ItemWebServiceIntf;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import static org.slf4j.LoggerFactory.getLogger;
-
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.util.List;
+
+import static org.slf4j.LoggerFactory.getLogger;
 
 
 /**
@@ -55,9 +55,9 @@ public class ItemResource {
     }
     @POST
     @Produces(MediaType.APPLICATION_JSON)
-    public void createItem(Item item) {
+    public List<Item> createItems(List<Item> itemList) {
         System.out.print("Inside POST::createItem");
-        itemWebService.createItem(item);
+        return itemWebService.createItems(itemList);
     }
 
     @PUT

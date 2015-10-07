@@ -1,6 +1,7 @@
 package com.templetree.service;
 
 import com.templetree.model.Invoice;
+import com.templetree.model.InvoicesItems;
 import com.templetree.model.Item;
 import com.templetree.service.intf.InvoiceWebServiceIntf;
 import com.templetree.service.intf.InvoicesExcelWebServiceIntf;
@@ -32,7 +33,7 @@ public class InvoicesExcelWebService implements InvoicesExcelWebServiceIntf {
         System.out.println("Inside Read Excel method for Invoice : " + filename);
 
         Invoice invoice = new Invoice();
-        List<Item> items = new ArrayList<Item>();
+        List<InvoicesItems> invoicesItemsList = new ArrayList<InvoicesItems>();
         try {
 
             FileInputStream file = new FileInputStream(uploadFilePath);
@@ -46,7 +47,8 @@ public class InvoicesExcelWebService implements InvoicesExcelWebServiceIntf {
 
             for(Row myRow : invoiceMasterSheet) {
 
-                Item item = new Item();
+                InvoicesItems invoicesItems = new InvoicesItems();
+                invoicesItems.setInvoice(invoice);
                 if(myRow.getRowNum()==0 || myRow.getRowNum()==1 || myRow.getRowNum()==2) {
                     continue; //just skip the rows if row number is 0, 1 or 2
                 }
@@ -63,33 +65,27 @@ public class InvoicesExcelWebService implements InvoicesExcelWebServiceIntf {
                         case 0:
                             break;
                         case 1:
-                            item.setItemName(myCell.getRichStringCellValue().getString().trim());
+                            invoicesItems.setItemName(myCell.getRichStringCellValue().getString().trim());
                             break;
                         case 2:
-                            item.setBarcode(myCell.getRichStringCellValue().getString().trim());
+                            invoicesItems.setBarcode(myCell.getRichStringCellValue().getString().trim());
                             break;
                         case 3:
                             if (myCell.getCellType() == Cell.CELL_TYPE_NUMERIC)
-                                item.setQuantity(Integer.valueOf((int) myCell.getNumericCellValue()));
+                                invoicesItems.setQuantity(Integer.valueOf((int) myCell.getNumericCellValue()));
                             else
-                                item.setQuantity(Integer.parseInt(myCell.getStringCellValue().trim()));
+                                invoicesItems.setQuantity(Integer.parseInt(myCell.getStringCellValue().trim()));
                             break;
                         case 4:
                             if (myCell.getCellType() == Cell.CELL_TYPE_NUMERIC)
-                                item.setPurchasePrice(myCell.getNumericCellValue());
+                                invoicesItems.setPurchasePrice(myCell.getNumericCellValue());
                             else
-                                item.setPurchasePrice(Double.parseDouble(myCell.getStringCellValue().trim()));
-                            break;
-                        case 5:
-                            if (myCell.getCellType() == Cell.CELL_TYPE_NUMERIC || myCell.getCellType() == Cell.CELL_TYPE_FORMULA)
-                                item.setTotal(myCell.getNumericCellValue());
-                            else
-                                item.setTotal(Double.parseDouble(myCell.getStringCellValue().trim()));
+                                invoicesItems.setPurchasePrice(Double.parseDouble(myCell.getStringCellValue().trim()));
                             break;
                     }
                 }
-
-                items.add(item);
+                invoicesItems.setTotal(invoicesItems.getQuantity() * invoicesItems.getPurchasePrice());
+                invoicesItemsList.add(invoicesItems);
             }
             addInvoiceAttributes(invoiceMasterSheet, invoice);
             file.close();
@@ -97,7 +93,7 @@ public class InvoicesExcelWebService implements InvoicesExcelWebServiceIntf {
             ex.printStackTrace();
         }
 
-        invoice.setItemList(items);
+        invoice.setInvoicesItemsList(invoicesItemsList);
         invoiceWebService.createInvoice(invoice);
 
         return invoice;

@@ -6,8 +6,8 @@ import com.templetree.model.Invoice;
 import com.templetree.service.intf.InvoiceWebServiceIntf;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 /**
@@ -15,6 +15,7 @@ import java.util.List;
  */
 
 @Service("invoiceWebService")
+@Transactional
 public class InvoiceWebService implements InvoiceWebServiceIntf {
 
 
@@ -36,14 +37,12 @@ public class InvoiceWebService implements InvoiceWebServiceIntf {
     }
 
     @Override
-    //@Transactional
-    public void createInvoice(Invoice invoice) {
-        invoiceDao.insertInvoice(invoice);
-        invoiceItemsDao.insertInvoiceItemsByInvoiceId(invoice.getItemList(), invoice);
+    public Invoice createInvoice(Invoice invoice) {
+        Integer id = invoiceDao.insertInvoice(invoice);
+        return invoiceDao.getInvoiceById(id);
     }
 
     @Override
-    //@Transactional
     public Invoice updateInvoice(Invoice invoice) {
         return invoiceDao.updateInvoice(invoice);
     }
