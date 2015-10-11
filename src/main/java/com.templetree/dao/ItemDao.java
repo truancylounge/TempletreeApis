@@ -35,6 +35,22 @@ public class ItemDao implements ItemDaoIntf {
     }
 
     @Override
+    public void saveOrUpdateItems(List<Item> items) {
+
+        List<Item> deletedItems = getAllItems();
+        deletedItems.removeAll(items);
+
+        for(Item item : deletedItems) {
+            System.out.println("Deleting Item id : " + item.getId());
+            this.deleteItemById(item.getId());
+        }
+
+        for(Item item : items) {
+            getCurrentSession().merge(item);
+        }
+    }
+
+    @Override
     public List<Item> insertItems(List<Item> items) {
         List<Item> dbItems = getAllItems();
         items.removeAll(dbItems);
@@ -66,6 +82,6 @@ public class ItemDao implements ItemDaoIntf {
 
     @Override
     public void deleteItemById(Integer id) {
-
+        getCurrentSession().delete(this.getItemById(id));
     }
 }

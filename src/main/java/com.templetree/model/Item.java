@@ -37,6 +37,13 @@ public class Item {
 
     }
 
+    public Item(String barcode, String itemName, Double purchasePrice, Integer quantity) {
+        this.barcode = barcode;
+        this.itemName = itemName;
+        this.purchasePrice = purchasePrice;
+        this.quantity = quantity;
+    }
+
     public Integer getId() {
         return id;
     }

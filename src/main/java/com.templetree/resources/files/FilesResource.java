@@ -35,7 +35,7 @@ public class FilesResource {
     @Path("/upload/itemlist")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.MULTIPART_FORM_DATA)
-    public List<Item> uploadItemList(
+    public void uploadItemList(
             @FormDataParam("uploadFile") InputStream fileInputStream,
             @FormDataParam("uploadFile") FormDataContentDisposition fileFormDataContentDisposition) {
 
@@ -52,7 +52,7 @@ public class FilesResource {
         finally{
             // release resources, if any
         }
-        return itemListExcelWebService.readExcel(uploadFilePath);
+        itemListExcelWebService.readExcel(uploadFilePath);
     }
 
     @POST

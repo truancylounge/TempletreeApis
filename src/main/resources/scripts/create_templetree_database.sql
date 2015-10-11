@@ -24,7 +24,8 @@ CREATE TABLE templetree.invoices (
   `grandTotal` DECIMAL(10,2),
   `createdDate` date DEFAULT NULL,
   `updatedDate` date DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `unique` (`invoiceName`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 CREATE TABLE templetree.invoicesItems (

@@ -40,6 +40,11 @@ public class ItemWebService implements ItemWebServiceIntf {
     }
 
     @Override
+    public void saveOrUpdateItems(List<Item> items) {
+        itemDao.saveOrUpdateItems(items);
+    }
+
+    @Override
     public Item updateItem(Item item) {
         return itemDao.updateItem(item);
     }
