@@ -1,7 +1,6 @@
 package com.templetree.resources.files;
 
 import com.templetree.model.Invoice;
-import com.templetree.model.Item;
 import com.templetree.service.intf.ExcelWebServiceIntf;
 import com.templetree.service.intf.InvoicesExcelWebServiceIntf;
 import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
@@ -14,7 +13,6 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import java.io.*;
-import java.util.List;
 
 /**
  * Created by Lalith on 10/1/15.
