@@ -9,6 +9,7 @@ import java.util.List;
  */
 public interface ItemDaoIntf {
     public Item getItemById(Integer id);
+    public Item getItemByBarcode(String barcode);
     public List<Item> getAllItems();
     public List<Item> insertItems(List<Item> items);
     public void saveOrUpdateItems(List<Item> items);

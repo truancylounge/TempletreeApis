@@ -41,6 +41,15 @@ public class ItemWebService implements ItemWebServiceIntf {
 
     @Override
     public void saveOrUpdateItems(List<Item> items) {
+
+        List<Item> deletedItems = getAllItems();
+        deletedItems.removeAll(items);
+
+        for(Item item : deletedItems) {
+            System.out.println("Deleting Item id : " + item.getId());
+            itemDao.deleteItemById(item.getId());
+        }
+
         itemDao.saveOrUpdateItems(items);
     }
 

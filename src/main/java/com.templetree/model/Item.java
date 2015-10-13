@@ -100,6 +100,10 @@ public class Item {
         this.quantity = quantity;
     }
 
+    public void addQuantity(Integer quantity) {
+        this.quantity = (this.quantity == null) ? quantity : (this.quantity + quantity);
+    }
+
     public Timestamp getCreatedDate() {
         return createdDate;
     }

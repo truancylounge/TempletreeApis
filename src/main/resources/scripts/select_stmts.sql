@@ -2,7 +2,9 @@ select * from templetree.items;
 
 update templetree.items set category = "Test Box" where id = 1;
 
+delete from templetree.invoices where id = 12;
 	
+    
 
 select * from templetree.invoices;
 

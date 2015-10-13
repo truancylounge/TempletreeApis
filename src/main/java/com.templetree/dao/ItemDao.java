@@ -4,6 +4,7 @@ import com.templetree.dao.intf.ItemDaoIntf;
 import com.templetree.model.Item;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -30,6 +31,13 @@ public class ItemDao implements ItemDaoIntf {
     }
 
     @Override
+    public Item getItemByBarcode(String barcode) {
+        return (Item) getCurrentSession().createCriteria(Item.class)
+                .add(Restrictions.eq("barcode", barcode))
+                .uniqueResult();
+    }
+
+    @Override
     public List<Item> getAllItems() {
         return getCurrentSession().createCriteria(Item.class).list();
     }
@@ -37,6 +45,7 @@ public class ItemDao implements ItemDaoIntf {
     @Override
     public void saveOrUpdateItems(List<Item> items) {
 
+        /*
         List<Item> deletedItems = getAllItems();
         deletedItems.removeAll(items);
 
@@ -44,6 +53,8 @@ public class ItemDao implements ItemDaoIntf {
             System.out.println("Deleting Item id : " + item.getId());
             this.deleteItemById(item.getId());
         }
+
+        */
 
         for(Item item : items) {
             getCurrentSession().merge(item);
