@@ -64,31 +64,31 @@ public class InvoiceWebService implements InvoiceWebServiceIntf {
                         invoicesItems.getQuantity()));
         }
 
+        List<String> barcodes = new ArrayList<String>();
+
+        for(Item item : itemsToBeCreated) {
+            barcodes.add(item.getBarcode());
+        }
+
         itemDao.insertItems(itemsToBeCreated);
 
         List<Item> itemsToBeUpdated = new ArrayList<Item>(); // List of items whose quantity will be updated.
 
-        // Iterate through Invoice Items and add quantity to master items
+        // Iterate through Invoice Items and add quantity to master items which have not been created above.
+        // To do that filter out barcodes which don't already exist in the barcodes array
         for(InvoicesItems invoicesItems : invoicesItemsList) {
-            Item item = itemDao.getItemByBarcode(invoicesItems.getBarcode());
-            item.addQuantity(invoicesItems.getQuantity());
-            itemsToBeUpdated.add(item);
+            if(!barcodes.contains(invoicesItems.getBarcode())) {
+                Item item = itemDao.getItemByBarcode(invoicesItems.getBarcode());
+                item.addQuantity(invoicesItems.getQuantity());
+                itemsToBeUpdated.add(item);
+            }
+
         }
 
-        // Removing itemsCreated from this collection, if not the qty is getting updated twice, once during creation
-        // and again during saveUpdate.
-        itemsToBeUpdated.removeAll(itemsToBeCreated);
         itemDao.saveOrUpdateItems(itemsToBeUpdated);
 
         Integer id = invoiceDao.insertInvoice(invoice);
 
-        // todo : forloops to be deleted
-        for(Item item : itemsToBeCreated) {
-            System.out.println("Creating new products from invoice barcode: " + item.getBarcode());
-        }
-        for(Item item : itemsToBeUpdated) {
-            System.out.println("Addding quantity: "  + item.getQuantity() +  " to barcode : " + item.getBarcode());
-        }
         return invoiceDao.getInvoiceById(id);
     }
 
