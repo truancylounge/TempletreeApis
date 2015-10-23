@@ -6,6 +6,7 @@ import com.templetree.service.intf.InvoicesExcelWebServiceIntf;
 import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 import org.glassfish.jersey.media.multipart.FormDataParam;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
@@ -13,6 +14,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import java.io.*;
+import java.util.Properties;
 
 /**
  * Created by Lalith on 10/1/15.
@@ -20,14 +22,15 @@ import java.io.*;
 @Path("/fileservice")
 public class FilesResource {
 
-    public static final String UPLOAD_FILE_SERVER = "/Users/Lalith/Development/projects/TempletreeSystem/files/";
-
     @Autowired
     private ExcelWebServiceIntf itemListExcelWebService;
 
     @Autowired
     private InvoicesExcelWebServiceIntf invoicesExcelWebService;
 
+    @Autowired
+    @Qualifier("mainControllerProperties")
+    private Properties appProperties;
 
     @POST
     @Path("/upload/itemlist")
@@ -50,6 +53,9 @@ public class FilesResource {
         finally{
             // release resources, if any
         }
+
+        System.out.println("Writing Excel file to server success!");
+
         itemListExcelWebService.readExcel(uploadFilePath);
     }
 
@@ -60,6 +66,8 @@ public class FilesResource {
     public Invoice uploadInvoices(
             @FormDataParam("uploadFile") InputStream fileInputStream,
             @FormDataParam("uploadFile") FormDataContentDisposition fileFormDataContentDisposition) {
+
+        System.out.println(System.getProperty("java.class.path"));
 
         System.out.println("Invoices File Upload in progress!!");
         String fileName  = null;
@@ -76,6 +84,8 @@ public class FilesResource {
             // release resources, if any
         }
 
+        System.out.println("Writing Excel file to server success!");
+
         return invoicesExcelWebService.readExcel(uploadFilePath, fileName);
     }
 
@@ -91,7 +101,7 @@ public class FilesResource {
 
         System.out.println("Writing Excel file to server.");
         OutputStream outputStream = null;
-        String qualifiedUploadFilePath = UPLOAD_FILE_SERVER + fileName;
+        String qualifiedUploadFilePath = appProperties.getProperty("app.tmpUploadFolder") + fileName;
 
         try {
             outputStream = new FileOutputStream(new File(qualifiedUploadFilePath));

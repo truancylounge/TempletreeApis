@@ -139,9 +139,22 @@
           <artifactId>hibernate-ehcache</artifactId>
           <version>${org.hibernate.version}</version>
       </dependency>
+      <dependency>
+          <groupId>javax</groupId>
+          <artifactId>javaee-web-api</artifactId>
+          <version>7.0</version>
+          <scope>provided</scope>
+      </dependency>
+      <dependency>
+          <groupId>javax.servlet</groupId>
+          <artifactId>javax.servlet-api</artifactId>
+          <version>3.1.0</version>
+          <scope>provided</scope>
+      </dependency>
   </dependencies>
   <build>
     <finalName>TempletreeSystem</finalName>
+
       <plugins>
           <plugin>
               <groupId>org.eclipse.jetty</groupId>
@@ -154,7 +167,6 @@
                   </webApp>
               </configuration>
           </plugin>
-
       </plugins>
   </build>
 </project>
