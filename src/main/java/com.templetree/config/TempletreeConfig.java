@@ -1,10 +1,9 @@
 package com.templetree.config;
 
-import javax.servlet.ServletContextEvent;
-import javax.servlet.ServletContextListener;
-
 import org.slf4j.Logger;
 
+import javax.servlet.ServletContextEvent;
+import javax.servlet.ServletContextListener;
 import java.io.FileInputStream;
 import java.util.Properties;
 

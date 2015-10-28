@@ -56,7 +56,7 @@ public class ItemResource {
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     public void createItems(List<Item> itemList) {
-        System.out.print("Inside POST::createItem");
+        System.out.print("Inside POST::createItems");
         itemWebService.saveOrUpdateItems(itemList);
         //return itemWebService.createItems(itemList);
     }

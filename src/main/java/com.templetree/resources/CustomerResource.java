@@ -1,13 +1,12 @@
 package com.templetree.resources;
 
-import javax.ws.rs.*;
-import javax.ws.rs.core.MediaType;
-
 import com.templetree.model.Customer;
 import com.templetree.service.intf.CustomerWebServiceIntf;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
 import java.util.List;
 
 import static org.slf4j.LoggerFactory.getLogger;
@@ -39,11 +38,18 @@ public class CustomerResource {
         System.out.print("Inside GET Customer by Id: " + id);
         return customerWebService.getCustomerById(id);
     }
+
+    /**
+     * This method takes in new customers, customers to be edited, customers to be deleted
+     *
+     * @param customers
+     * @return
+     */
     @POST
     @Produces(MediaType.APPLICATION_JSON)
-    public Customer createCustomer(Customer customer) {
-        System.out.print("Inside POST::createCustomer");
-        return customerWebService.createCustomer(customer);
+    public void createModifyCustomers(List<Customer> customers) {
+        System.out.print("Inside POST::createCustomers");
+        customerWebService.saveOrUpdateCustomers(customers);
     }
 
     @PUT

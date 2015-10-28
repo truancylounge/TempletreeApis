@@ -7,6 +7,8 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -40,12 +42,18 @@ public class CustomerDao implements CustomerDaoIntf {
     }
 
     @Override
+    public void saveOrUpdateCustomers(List<Customer> customers) {
+        customers.forEach(customer -> getCurrentSession().saveOrUpdate(customer));
+    }
+
+    @Override
     public Integer insertCustomer(Customer customer) {
         return Integer.parseInt(getCurrentSession().save(customer).toString());
     }
 
     @Override
     public Customer updateCustomer(Customer customer) {
+        customer.setUpdatedDate(new Timestamp(new Date().getTime()));
         getCurrentSession().update(customer);
         return getCustomerById(customer.getId());
     }

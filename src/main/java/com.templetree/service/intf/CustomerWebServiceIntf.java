@@ -13,5 +13,6 @@ public interface CustomerWebServiceIntf {
     public Customer getCustomerById(Integer id);
     public Customer createCustomer(Customer customer);
     public Customer updateCustomer(Customer customer);
+    public void saveOrUpdateCustomers(List<Customer> customers);
     public void deleteCustomer(Integer id);
 }

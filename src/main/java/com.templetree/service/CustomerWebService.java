@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.sql.Timestamp;
-import java.time.Instant;
 import java.util.Date;
 import java.util.List;
 
@@ -48,8 +47,21 @@ public class CustomerWebService implements CustomerWebServiceIntf {
 
     @Override
     public Customer updateCustomer(Customer customer) {
-        customer.setUpdatedDate(new Timestamp(new Date().getTime()));
         return customerDao.updateCustomer(customer);
+    }
+
+    @Override
+    public void saveOrUpdateCustomers(List<Customer> customers) {
+
+        List<Customer> deletedCustomers = getAllCustomers();
+        deletedCustomers.removeAll(customers);
+
+        deletedCustomers.forEach(deletedCustomer -> {
+            System.out.println("Deleting Customer id : " + deletedCustomer.getId());
+            customerDao.deleteCustomerById(deletedCustomer.getId());
+        });
+
+        customerDao.saveOrUpdateCustomers(customers);
     }
 
     @Override
