@@ -4,11 +4,11 @@ update templetree.items set category = "Test Box" where id = 1;
 
 delete from templetree.invoices where id = 21;
 	
-    
-
 select * from templetree.invoices;
 
 select * from templetree.invoicesItems;
+
+select * from templetree.customers;
 
 SET SQL_SAFE_UPDATES = 0;
 delete  from templetree.invoicesItems;
