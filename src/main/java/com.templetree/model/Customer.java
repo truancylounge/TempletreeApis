@@ -79,4 +79,26 @@ public class Customer {
     public void setUpdatedDate(Timestamp updatedDate) {
         this.updatedDate = updatedDate;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Customer customer = (Customer) o;
+
+        if (!email.equals(customer.email)) return false;
+        if (!name.equals(customer.name)) return false;
+        if (!telephoneNo.equals(customer.telephoneNo)) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = name.hashCode();
+        result = 31 * result + email.hashCode();
+        result = 31 * result + telephoneNo.hashCode();
+        return result;
+    }
 }

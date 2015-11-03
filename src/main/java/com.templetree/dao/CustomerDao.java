@@ -43,7 +43,7 @@ public class CustomerDao implements CustomerDaoIntf {
 
     @Override
     public void saveOrUpdateCustomers(List<Customer> customers) {
-        customers.forEach(customer -> getCurrentSession().saveOrUpdate(customer));
+        customers.forEach(customer -> getCurrentSession().merge(customer));
     }
 
     @Override

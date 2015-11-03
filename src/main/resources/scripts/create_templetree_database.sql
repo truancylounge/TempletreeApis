@@ -60,7 +60,8 @@ CREATE TABLE templetree.invoicesItems (
   `telephoneNo` varchar(255),  
   `createdDate` date DEFAULT NULL,
   `updatedDate` date DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  UNIQUE KEY (`name`, `email`, `telephoneNo`)
   ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
   
   

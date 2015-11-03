@@ -9,8 +9,12 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 import static org.slf4j.LoggerFactory.getLogger;
 
@@ -53,12 +57,21 @@ public class CustomerWebService implements CustomerWebServiceIntf {
     @Override
     public void saveOrUpdateCustomers(List<Customer> customers) {
 
-        List<Customer> deletedCustomers = getAllCustomers();
-        deletedCustomers.removeAll(customers);
+        List<Customer> dbCustomers = getAllCustomers();
+        List<Integer> dbCustomerIds = dbCustomers.stream()
+                .map(Customer::getId)
+                .collect(Collectors.toCollection(ArrayList::new));
 
-        deletedCustomers.forEach(deletedCustomer -> {
-            System.out.println("Deleting Customer id : " + deletedCustomer.getId());
-            customerDao.deleteCustomerById(deletedCustomer.getId());
+        List<Integer> customerIds = customers.stream()
+                .map(Customer::getId)
+                .collect(Collectors.toCollection(ArrayList::new));
+
+        // Figuring out what id's have been deleted and deleting it from the db.
+        dbCustomerIds.removeAll(customerIds);
+
+        dbCustomerIds.forEach(deletedCustomerId -> {
+            System.out.println("Deleting Customer id : " + deletedCustomerId);
+            customerDao.deleteCustomerById(deletedCustomerId);
         });
 
         customerDao.saveOrUpdateCustomers(customers);
