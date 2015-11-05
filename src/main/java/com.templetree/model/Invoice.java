@@ -7,7 +7,7 @@ import java.sql.Timestamp;
 import java.util.List;
 
 /**
- * Created by Lalith on 10/6/15.
+ * @author Lalith Mannur
  */
 @Entity
 @Table(name = "invoices")

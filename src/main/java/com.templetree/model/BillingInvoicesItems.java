@@ -10,8 +10,9 @@ import java.sql.Timestamp;
  */
 
 @Entity
-@Table(name = "invoicesItems")
-public class InvoicesItems {
+@Table(name = "billingInvoicesItems")
+public class BillingInvoicesItems {
+
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -35,10 +36,10 @@ public class InvoicesItems {
 
     @JsonBackReference
     @ManyToOne
-    @JoinColumn(name = "invoiceId")
-    private Invoice invoice;
+    @JoinColumn(name = "billingInvoiceId")
+    private BillingInvoice billingInvoice;
 
-    public InvoicesItems() {
+    public BillingInvoicesItems() {
 
     }
 
@@ -106,11 +107,11 @@ public class InvoicesItems {
         this.updatedDate = updatedDate;
     }
 
-    public Invoice getInvoice() {
-        return invoice;
+    public BillingInvoice getBillingInvoice() {
+        return billingInvoice;
     }
 
-    public void setInvoice(Invoice invoice) {
-        this.invoice = invoice;
+    public void setBillingInvoice(BillingInvoice billingInvoice) {
+        this.billingInvoice = billingInvoice;
     }
 }

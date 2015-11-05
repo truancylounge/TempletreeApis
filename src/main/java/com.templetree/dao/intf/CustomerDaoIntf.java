@@ -5,7 +5,7 @@ import com.templetree.model.Customer;
 import java.util.List;
 
 /**
- * Created by Lalith on 10/27/15.
+ * @author Lalith Mannur
  */
 public interface CustomerDaoIntf {
     public Customer getCustomerById(Integer id);

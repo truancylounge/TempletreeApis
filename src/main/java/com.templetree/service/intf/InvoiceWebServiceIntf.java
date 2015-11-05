@@ -5,7 +5,7 @@ import com.templetree.model.Invoice;
 import java.util.List;
 
 /**
- * Created by Lalith on 10/6/15.
+ * @author Lalith Mannur
  */
 public interface InvoiceWebServiceIntf {
     public List<Invoice> getAllInvoices();

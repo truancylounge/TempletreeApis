@@ -3,7 +3,7 @@ package com.templetree.model;
 import java.sql.Timestamp;
 
 /**
- * Created by Lalith on 10/2/15.
+ * @author Lalith Mannur
  */
 public class User {
     private Integer id;

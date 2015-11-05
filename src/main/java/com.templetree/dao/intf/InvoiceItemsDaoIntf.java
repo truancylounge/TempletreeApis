@@ -6,7 +6,7 @@ import com.templetree.model.Item;
 import java.util.List;
 
 /**
- * Created by Lalith on 10/6/15.
+ * @author Lalith Mannur
  */
 public interface InvoiceItemsDaoIntf {
 

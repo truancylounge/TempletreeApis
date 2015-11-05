@@ -17,7 +17,7 @@ import java.io.*;
 import java.util.Properties;
 
 /**
- * Created by Lalith on 10/1/15.
+ * @author Lalith Mannur
  */
 @Path("/fileservice")
 public class FilesResource {

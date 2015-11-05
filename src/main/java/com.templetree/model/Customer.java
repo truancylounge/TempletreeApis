@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.sql.Timestamp;
 
 /**
- * Created by Lalith on 10/27/15.
+ * @author Lalith Mannur
  */
 
 @Entity

@@ -6,7 +6,7 @@ import javax.ws.rs.container.ContainerResponseFilter;
 import java.io.IOException;
 
 /**
- * Created by Lalith on 10/1/15.
+ * @author Lalith Mannur
  */
 public class CORSFilter implements ContainerResponseFilter {
 

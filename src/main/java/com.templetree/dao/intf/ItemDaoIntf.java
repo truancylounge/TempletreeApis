@@ -5,7 +5,7 @@ import com.templetree.model.Item;
 import java.util.List;
 
 /**
- * Created by Lalith on 10/2/15.
+ * @author Lalith Mannur
  */
 public interface ItemDaoIntf {
     public Item getItemById(Integer id);

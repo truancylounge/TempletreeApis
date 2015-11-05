@@ -43,7 +43,7 @@ CREATE TABLE templetree.invoicesItems (
   ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
   
  
- CREATE TABLE templetree.customerInvoices (
+ CREATE TABLE templetree.billingInvoices (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `totalAmount` DECIMAL(10,2),
   `cash` DECIMAL(10,2),
@@ -52,6 +52,21 @@ CREATE TABLE templetree.invoicesItems (
   `updatedDate` date DEFAULT NULL,
   PRIMARY KEY (`id`)
   ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  
+  CREATE TABLE templetree.billingInvoicesItems (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `billingInvoiceId` int(10) unsigned NOT NULL,
+  `itemName` varchar(255),
+  `barcode` varchar(255),
+  `quantity` int(10),
+  `purchasePrice` DECIMAL(10,2),
+  `total` DECIMAL(10,2),
+  `createdDate` date DEFAULT NULL,
+  `updatedDate` date DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  FOREIGN KEY (`billingInvoiceId`) references templetree.billingInvoices(`id`) ON DELETE CASCADE
+  ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  
   
   CREATE TABLE templetree.customers (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,

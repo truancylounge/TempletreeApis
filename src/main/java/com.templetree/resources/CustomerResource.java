@@ -13,7 +13,7 @@ import static org.slf4j.LoggerFactory.getLogger;
 
 
 /**
- * Created by Lalith on 10/27/15.
+ * @author Lalith Mannur
  */
 
 @Path("/customers")

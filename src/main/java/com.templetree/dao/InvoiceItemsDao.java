@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 /**
- * Created by Lalith on 10/6/15.
+ * @author Lalith Mannur
  */
 @Repository("invoiceItemsDao")
 public class InvoiceItemsDao implements InvoiceItemsDaoIntf {

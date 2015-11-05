@@ -11,15 +11,13 @@ import javax.transaction.Transactional;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import static org.slf4j.LoggerFactory.getLogger;
 
 /**
- * Created by Lalith on 10/27/15.
+ * @author Lalith Mannur
  */
 
 @Service("customerWebService")
