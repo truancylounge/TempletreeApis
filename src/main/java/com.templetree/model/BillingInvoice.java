@@ -35,6 +35,10 @@ public class BillingInvoice {
     @OneToMany(cascade=CascadeType.ALL, mappedBy="billingInvoice")
     private List<BillingInvoicesItems> billingInvoicesItemsList;
 
+    @ManyToOne
+    @JoinColumn(name = "customerId")
+    private Customer customer;
+
     public BillingInvoice() {
 
     }
@@ -93,5 +97,13 @@ public class BillingInvoice {
 
     public void setBillingInvoicesItemsList(List<BillingInvoicesItems> billingInvoicesItemsList) {
         this.billingInvoicesItemsList = billingInvoicesItemsList;
+    }
+
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
     }
 }

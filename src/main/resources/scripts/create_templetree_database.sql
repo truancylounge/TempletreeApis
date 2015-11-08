@@ -45,12 +45,14 @@ CREATE TABLE templetree.invoicesItems (
  
  CREATE TABLE templetree.billingInvoices (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `customerId` int(10) unsigned,
   `totalAmount` DECIMAL(10,2),
   `cash` DECIMAL(10,2),
   `credit` DECIMAL(10,2),  
   `createdDate` date DEFAULT NULL,
   `updatedDate` date DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  FOREIGN KEY (`customerId`) references templetree.customers(`id`)
   ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
   
   CREATE TABLE templetree.billingInvoicesItems (

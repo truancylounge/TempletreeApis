@@ -1,7 +1,11 @@
 package com.templetree.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.List;
 
 /**
  * @author Lalith Mannur
@@ -27,6 +31,10 @@ public class Customer {
     private Timestamp createdDate;
     @Column(name = "updatedDate")
     private Timestamp updatedDate;
+
+    @JsonIgnore
+    @OneToMany(mappedBy="customer")
+    private List<BillingInvoice> billingInvoiceList;
 
     public Customer() {
 
@@ -78,6 +86,14 @@ public class Customer {
 
     public void setUpdatedDate(Timestamp updatedDate) {
         this.updatedDate = updatedDate;
+    }
+
+    public List<BillingInvoice> getBillingInvoiceList() {
+        return billingInvoiceList;
+    }
+
+    public void setBillingInvoiceList(List<BillingInvoice> billingInvoiceList) {
+        this.billingInvoiceList = billingInvoiceList;
     }
 
     @Override
