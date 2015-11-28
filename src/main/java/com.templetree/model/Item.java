@@ -32,6 +32,8 @@ public class Item {
     private Timestamp createdDate;
     @Column(name = "updatedDate")
     private Timestamp updatedDate;
+    @javax.persistence.Transient
+    private Action action = Action.I;
 
     public Item() {
 
@@ -118,6 +120,14 @@ public class Item {
 
     public void setUpdatedDate(Timestamp updatedDate) {
         this.updatedDate = updatedDate;
+    }
+
+    public Action getAction() {
+        return action;
+    }
+
+    public void setAction(Action action) {
+        this.action = action;
     }
 
     @Override

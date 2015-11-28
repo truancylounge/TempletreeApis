@@ -1,7 +1,9 @@
 package com.templetree.service;
 
 import com.templetree.dao.intf.CustomerDaoIntf;
+import com.templetree.model.Action;
 import com.templetree.model.Customer;
+import com.templetree.model.Item;
 import com.templetree.service.intf.CustomerWebServiceIntf;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,6 +42,12 @@ public class CustomerWebService implements CustomerWebServiceIntf {
     }
 
     @Override
+    public List<Customer> createCustomers(List<Customer> customers) {
+        return customerDao.insertCustomers(customers);
+
+    }
+
+    @Override
     public Customer createCustomer(Customer customer) {
         customer.setCreatedDate(new Timestamp(new Date().getTime()));
         customer.setUpdatedDate(new Timestamp(new Date().getTime()));
@@ -50,6 +58,18 @@ public class CustomerWebService implements CustomerWebServiceIntf {
     @Override
     public Customer updateCustomer(Customer customer) {
         return customerDao.updateCustomer(customer);
+    }
+
+    @Override
+    public void updateCustomers(List<Customer> customers) {
+        List<Customer> deletedCustomers = customers.stream()
+                .filter(customer -> customer.getAction() == Action.D)
+                .collect(Collectors.toList());
+        List<Customer> updatedCustomers = customers.stream()
+                .filter(customer -> customer.getAction() == Action.U)
+                .collect(Collectors.toList());
+        deletedCustomers.forEach(i -> customerDao.deleteCustomerById(i.getId()));
+        customerDao.saveOrUpdateCustomers(updatedCustomers);
     }
 
     @Override

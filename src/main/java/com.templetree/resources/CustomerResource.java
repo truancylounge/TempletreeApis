@@ -49,7 +49,8 @@ public class CustomerResource {
     @Produces(MediaType.APPLICATION_JSON)
     public void createModifyCustomers(List<Customer> customers) {
         System.out.print("Inside POST::createCustomers");
-        customerWebService.saveOrUpdateCustomers(customers);
+        customerWebService.createCustomers(customers);
+        //customerWebService.saveOrUpdateCustomers(customers);
     }
 
     @PUT
@@ -64,6 +65,14 @@ public class CustomerResource {
         // todo: check other resouces if this issue exists
         return customerWebService.updateCustomer(customer);
     }
+
+    @PUT
+    @Produces(MediaType.APPLICATION_JSON)
+    public void updateCustomers(List<Customer> customerList) {
+        System.out.println("Inside PUT Customers. Number of Customers being updated : " + customerList.size());
+        customerWebService.updateCustomers(customerList);
+    }
+
 
     @DELETE
     @Path("/{id}")

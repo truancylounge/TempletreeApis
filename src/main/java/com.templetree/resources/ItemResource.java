@@ -35,14 +35,14 @@ public class ItemResource {
     @Produces(MediaType.TEXT_PLAIN)
     public String ping() {
         LOGGER.info("Inside GET for Ping");
-        System.out.print("Inside GET for Ping");
+        System.out.println("Inside GET for Ping");
         return "Success!!";
     }
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public List<Item> getAllItems() {
-        System.out.print("Inside GET All Items");
+        System.out.println("Inside GET All Items");
         return itemWebService.getAllItems();
     }
 
@@ -50,14 +50,14 @@ public class ItemResource {
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public Item getItem(@PathParam("id") Integer id) {
-        System.out.print("Inside GET Item by Id: " + id);
+        System.out.println("Inside GET Item by Id: " + id);
         return itemWebService.getItemById(id);
     }
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     public void createItems(List<Item> itemList) {
-        System.out.print("Inside POST::createItems");
-        itemWebService.saveOrUpdateItems(itemList);
+        System.out.println("Inside POST::createItems");
+        itemWebService.createItems(itemList);
         //return itemWebService.createItems(itemList);
     }
 
@@ -68,4 +68,14 @@ public class ItemResource {
         System.out.print("Inside PUT Item. Updating Item with barcode: " + item.getBarcode());
         return itemWebService.updateItem(item);
     }
+
+    @PUT
+    @Produces(MediaType.APPLICATION_JSON)
+    public void updateItems(List<Item> itemList) {
+        System.out.println("Inside PUT Items. Number of items being updated : " + itemList.size());
+        itemWebService.updateItems(itemList);
+    }
+
+
+
 }

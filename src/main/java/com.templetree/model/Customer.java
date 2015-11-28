@@ -32,6 +32,9 @@ public class Customer {
     @Column(name = "updatedDate")
     private Timestamp updatedDate;
 
+    @javax.persistence.Transient
+    private Action action = Action.I;
+
     @JsonIgnore
     @OneToMany(mappedBy="customer")
     private List<BillingInvoice> billingInvoiceList;
@@ -96,6 +99,14 @@ public class Customer {
         this.billingInvoiceList = billingInvoiceList;
     }
 
+    public Action getAction() {
+        return action;
+    }
+
+    public void setAction(Action action) {
+        this.action = action;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -117,4 +128,6 @@ public class Customer {
         result = 31 * result + telephoneNo.hashCode();
         return result;
     }
+
+
 }

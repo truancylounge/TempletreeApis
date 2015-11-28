@@ -1,6 +1,7 @@
 package com.templetree.service;
 
 import com.templetree.dao.intf.ItemDaoIntf;
+import com.templetree.model.Action;
 import com.templetree.model.Item;
 import com.templetree.service.intf.ItemWebServiceIntf;
 import org.slf4j.Logger;
@@ -9,6 +10,8 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static org.slf4j.LoggerFactory.getLogger;
 
@@ -56,6 +59,18 @@ public class ItemWebService implements ItemWebServiceIntf {
     @Override
     public Item updateItem(Item item) {
         return itemDao.updateItem(item);
+    }
+
+    @Override
+    public void updateItems(List<Item> itemList) {
+        List<Item> deletedItems = itemList.stream()
+                .filter(item -> item.getAction() == Action.D)
+                .collect(Collectors.toList());
+        List<Item> updatedItems = itemList.stream()
+                .filter(item -> item.getAction() == Action.U)
+                .collect(Collectors.toList());
+        deletedItems.forEach(i -> itemDao.deleteItemById(i.getId()));
+        itemDao.saveOrUpdateItems(updatedItems);
     }
 
     @Override

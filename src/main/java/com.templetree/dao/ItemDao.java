@@ -8,7 +8,9 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -57,6 +59,7 @@ public class ItemDao implements ItemDaoIntf {
         */
 
         for(Item item : items) {
+            item.setUpdatedDate(new Timestamp(new Date().getTime()));
             getCurrentSession().merge(item);
         }
     }
@@ -68,6 +71,8 @@ public class ItemDao implements ItemDaoIntf {
 
         List<Item> returnedItems = new ArrayList<Item>();
         for(Item item : items) {
+            item.setCreatedDate(new Timestamp(new Date().getTime()));
+            item.setUpdatedDate(new Timestamp(new Date().getTime()));
             Integer i = Integer.parseInt(getCurrentSession().save(item).toString());
             // Using evict to remove the session object and force Hibernate to do a select
             // Without evict, hibernate isn't doing a select for get() and returning the object in memory after insert
