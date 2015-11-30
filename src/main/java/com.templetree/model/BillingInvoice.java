@@ -20,6 +20,8 @@ public class BillingInvoice {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", unique = true, nullable = false)
     private Integer id;
+    @Column(name = "invoiceName")
+    private String invoiceName;
     @Column(name = "totalAmount")
     private Double totalAmount;
     @Column(name = "cash")
@@ -105,5 +107,13 @@ public class BillingInvoice {
 
     public void setCustomer(Customer customer) {
         this.customer = customer;
+    }
+
+    public String getInvoiceName() {
+        return invoiceName;
+    }
+
+    public void setInvoiceName(String invoiceName) {
+        this.invoiceName = invoiceName;
     }
 }

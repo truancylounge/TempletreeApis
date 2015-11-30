@@ -58,6 +58,7 @@ CREATE TABLE templetree.customers (
  
  CREATE TABLE templetree.billingInvoices (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `invoiceName` varchar(255),
   `customerId` int(10) unsigned,
   `totalAmount` DECIMAL(10,2),
   `cash` DECIMAL(10,2),

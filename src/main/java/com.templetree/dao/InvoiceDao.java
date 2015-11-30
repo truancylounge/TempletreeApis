@@ -7,7 +7,9 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -51,6 +53,8 @@ public class InvoiceDao implements InvoiceDaoIntf {
 
     @Override
     public Integer insertInvoice(Invoice invoice) {
+        invoice.setCreatedDate(new Timestamp(new Date().getTime()));
+        invoice.setUpdatedDate(new Timestamp(new Date().getTime()));
         return Integer.parseInt(getCurrentSession().save(invoice).toString());
     }
 
