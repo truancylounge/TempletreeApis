@@ -39,6 +39,7 @@ public class BillingInvoiceWebService implements BillingInvoiceWebServiceIntf {
 
     @Override
     public BillingInvoice createBillingInvoice(BillingInvoice billingInvoice) {
+        billingInvoice.setInvoiceName("InvoiceNumber-" + System.currentTimeMillis());
         billingInvoice.setCreatedDate(new Timestamp(new Date().getTime()));
         billingInvoice.setUpdatedDate(new Timestamp(new Date().getTime()));
 
