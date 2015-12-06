@@ -1,16 +1,31 @@
 package com.templetree.model;
 
+import javax.persistence.*;
 import java.sql.Timestamp;
 
 /**
  * @author Lalith Mannur
  */
+@Entity
+@Table(name = "users")
 public class User {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", unique = true, nullable = false)
     private Integer id;
+    @Column(name = "username")
     private String username;
+    @Column(name = "password")
     private String password;
+    @Enumerated(EnumType.STRING)
+    private Role role;
+    @javax.persistence.Transient
+    private String token;
+    @javax.persistence.Transient
     private Boolean authenticated;
+    @Column(name = "createdDate", insertable = true, updatable = false)
     private Timestamp createdDate;
+    @Column(name = "updatedDate")
     private Timestamp updatedDate;
 
     public User(String userId, String password) {
@@ -68,5 +83,21 @@ public class User {
 
     public void setAuthenticated(Boolean authenticated) {
         this.authenticated = authenticated;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 }

@@ -3,7 +3,6 @@ package com.templetree.service;
 import com.templetree.dao.intf.CustomerDaoIntf;
 import com.templetree.model.Action;
 import com.templetree.model.Customer;
-import com.templetree.model.Item;
 import com.templetree.service.intf.CustomerWebServiceIntf;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
