@@ -43,7 +43,9 @@ public class LoginResource {
     @Produces(MediaType.APPLICATION_JSON)
     public User authenticateUser(User user) {
         System.out.println("Post Authenticate User");
-        return loginWebService.authenticateUser(user);
+        User userVo =  loginWebService.authenticateUser(user);
+        userVo.setPassword("");
+        return userVo;
 
     }
 
@@ -51,14 +53,19 @@ public class LoginResource {
     @Produces(MediaType.APPLICATION_JSON)
     public User insertUser(User user) {
         System.out.println("Post Insert User");
-        return loginWebService.insertUser(user);
+        User userVo = loginWebService.insertUser(user);
+        userVo.setPassword("");
+        return userVo;
     }
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public List<User> getAllUsers() {
         System.out.println("Inside GET All Users");
-        return loginWebService.retrieveAllUsers();
+        List<User> userVos = loginWebService.retrieveAllUsers();
+        userVos.forEach(userVo -> userVo.setPassword(""));
+        return userVos;
+
     }
 
     @GET
@@ -74,7 +81,9 @@ public class LoginResource {
     @Produces(MediaType.APPLICATION_JSON)
     public User updateUser(User user) {
         System.out.println("Inside PUT User");
-        return loginWebService.updateUser(user);
+        User userVo = loginWebService.updateUser(user);
+        userVo.setPassword("");
+        return userVo;
 
     }
 
