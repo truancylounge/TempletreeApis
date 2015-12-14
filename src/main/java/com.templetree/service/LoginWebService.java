@@ -28,9 +28,10 @@ public class LoginWebService implements LoginWebServiceIntf {
     @Override
     public User authenticateUser(User user) {
         User userDb =  loginDao.getUserCredentials(user.getUsername());
-        if (EncryptionUtil.getHash(user.getPassword()).equals(userDb.getPassword()) &&
-                user.getRole() == userDb.getRole()) {
+        if (EncryptionUtil.getHash(user.getPassword()).equals(userDb.getPassword())
+                /*&& user.getRole() == userDb.getRole() */) {
             user.setAuthenticated(Boolean.TRUE);
+            user.setRole(userDb.getRole());
         } else {
             user.setAuthenticated(Boolean.FALSE);
         }

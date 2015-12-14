@@ -1,14 +1,18 @@
 package com.templetree.resources;
 
+import com.templetree.exception.TempletreeException;
 import com.templetree.model.Role;
 import com.templetree.model.User;
 import com.templetree.service.intf.LoginWebServiceIntf;
+import com.templetree.utils.EncryptionUtil;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.util.List;
+import java.util.Properties;
 
 import static org.slf4j.LoggerFactory.getLogger;
 
@@ -19,6 +23,10 @@ import static org.slf4j.LoggerFactory.getLogger;
 @Path("/login")
 public class LoginResource {
     private static final Logger LOGGER = getLogger(LoginResource.class);
+
+    @Autowired
+    @Qualifier("mainControllerProperties")
+    public Properties appProperties;
 
     @Autowired
     private LoginWebServiceIntf loginWebService;
@@ -45,6 +53,16 @@ public class LoginResource {
         System.out.println("Post Authenticate User");
         User userVo =  loginWebService.authenticateUser(user);
         userVo.setPassword("");
+        if(userVo.getAuthenticated()) {
+            try {
+                String templetreeAuthToken = EncryptionUtil.generateAccessToken(userVo.getUsername(), userVo.getRole(), appProperties.getProperty("app.login.delimiter"), appProperties);
+                userVo.setToken(templetreeAuthToken);
+
+            } catch (TempletreeException ex ) {
+                ex.printStackTrace();
+            }
+
+        }
         return userVo;
 
     }

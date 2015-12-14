@@ -1,5 +1,6 @@
 package com.templetree.resources.files;
 
+import com.templetree.exception.TempletreeException;
 import com.templetree.model.Invoice;
 import com.templetree.service.intf.ExcelWebServiceIntf;
 import com.templetree.service.intf.InvoicesExcelWebServiceIntf;
@@ -73,20 +74,24 @@ public class FilesResource {
         String fileName  = null;
         String uploadFilePath = null;
 
+        Invoice invoice = new Invoice();
+
         try {
             fileName = fileFormDataContentDisposition.getFileName();
             uploadFilePath = writeToFileServer(fileInputStream, fileName);
+
+            System.out.println("Writing Excel file to server success!");
+
+            invoice =  invoicesExcelWebService.readExcel(uploadFilePath, fileName);
         }
-        catch(IOException ioe){
+        catch(IOException | TempletreeException ioe){
             ioe.printStackTrace();
         }
         finally{
             // release resources, if any
         }
 
-        System.out.println("Writing Excel file to server success!");
-
-        return invoicesExcelWebService.readExcel(uploadFilePath, fileName);
+        return invoice;
     }
 
 
