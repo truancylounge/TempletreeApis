@@ -10,6 +10,7 @@ import javax.annotation.Priority;
 import javax.ws.rs.Priorities;
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.container.ContainerRequestFilter;
+import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.Provider;
@@ -52,10 +53,12 @@ public class AuthFilter implements ContainerRequestFilter {
             System.out.println("Hitting Login url --> Authenticating");
             return;
         }
+        /*
         MultivaluedMap<String, String> queryParameters =
                 containerRequestContext.getUriInfo().getQueryParameters();
         String token = queryParameters.getFirst("token");
-        System.out.println("Token is : " + token);
+        System.out.println("Token is : " + token); */
+        String token = containerRequestContext.getHeaderString(HttpHeaders.AUTHORIZATION);
         User user = new User();
 
         if(token != null) {
