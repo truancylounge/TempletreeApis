@@ -106,6 +106,10 @@ public class Item {
         this.quantity = (this.quantity == null) ? quantity : (this.quantity + quantity);
     }
 
+    public void minusQuantity(Integer quantity) {
+        this.quantity = (this.quantity == null) ? quantity : (this.quantity - quantity);
+    }
+
     public Timestamp getCreatedDate() {
         return createdDate;
     }
