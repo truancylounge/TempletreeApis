@@ -72,10 +72,8 @@ public class ItemResource {
     @PUT
     @Produces(MediaType.APPLICATION_JSON)
     public void updateItems(List<Item> itemList) {
-        System.out.println("Inside PUT Items. Number of items being updated : " + itemList.size());
+        System.out.println("Inside PUT Items.");
         itemWebService.updateItems(itemList);
     }
-
-
 
 }

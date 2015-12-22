@@ -2,7 +2,6 @@ package com.templetree.dao;
 
 import com.templetree.dao.intf.CustomerDaoIntf;
 import com.templetree.model.Customer;
-import com.templetree.model.Item;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;

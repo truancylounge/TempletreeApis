@@ -1,5 +1,7 @@
 package com.templetree.service;
 
+import com.templetree.exception.ExceptionMessages;
+import com.templetree.exception.TempletreeException;
 import com.templetree.model.Invoice;
 import com.templetree.model.InvoicesItems;
 import com.templetree.service.intf.InvoiceWebServiceIntf;
@@ -27,7 +29,7 @@ public class InvoicesExcelWebService implements InvoicesExcelWebServiceIntf {
     private InvoiceWebServiceIntf invoiceWebService;
 
     @Override
-    public Invoice readExcel(String uploadFilePath, String filename) {
+    public Invoice readExcel(String uploadFilePath, String filename) throws TempletreeException {
 
         System.out.println("Inside Read Excel method for Invoice : " + filename);
 
@@ -89,7 +91,7 @@ public class InvoicesExcelWebService implements InvoicesExcelWebServiceIntf {
             addInvoiceAttributes(invoiceMasterSheet, invoice);
             file.close();
         } catch (Exception ex) {
-            ex.printStackTrace();
+            throw new TempletreeException(ExceptionMessages.FILE_READ_ERROR, ex);
         }
 
         invoice.setInvoicesItemsList(invoicesItemsList);
