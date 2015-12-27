@@ -1,5 +1,7 @@
 package com.templetree.auth;
 
+import com.templetree.exception.ExceptionMessages;
+import com.templetree.model.ErrorMessage;
 import com.templetree.model.User;
 import com.templetree.utils.EncryptionUtil;
 import org.slf4j.Logger;
@@ -73,7 +75,8 @@ public class AuthFilter implements ContainerRequestFilter {
                 else {
                     containerRequestContext.abortWith(Response
                                     .status(Response.Status.FORBIDDEN)
-                                    .entity(user)
+                                    .entity(new ErrorMessage(Response.Status.FORBIDDEN.getStatusCode(), "TEST", ExceptionMessages.TOKEN_ENCYPTION_ERROR,
+                                            ExceptionMessages.TOKEN_ENCYPTION_ERROR))
                                     .build()
                     );
                 }
@@ -82,7 +85,8 @@ public class AuthFilter implements ContainerRequestFilter {
             } else {
                 containerRequestContext.abortWith(Response
                                 .status(Response.Status.FORBIDDEN)
-                                .entity(user)
+                                .entity(new ErrorMessage(Response.Status.FORBIDDEN.getStatusCode(), "TEST", ExceptionMessages.TOKEN_ENCYPTION_ERROR,
+                                        ExceptionMessages.TOKEN_ENCYPTION_ERROR))
                                 .build()
                 );
             }
@@ -90,7 +94,8 @@ public class AuthFilter implements ContainerRequestFilter {
         } else {
             containerRequestContext.abortWith(Response
                             .status(Response.Status.FORBIDDEN)
-                            .entity(user)
+                            .entity(new ErrorMessage(Response.Status.FORBIDDEN.getStatusCode(), "TEST", ExceptionMessages.TOKEN_NOT_FOUND,
+                                    ExceptionMessages.TOKEN_NOT_FOUND))
                             .build()
             );
         }
