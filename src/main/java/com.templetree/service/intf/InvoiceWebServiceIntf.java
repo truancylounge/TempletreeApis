@@ -12,5 +12,5 @@ public interface InvoiceWebServiceIntf {
     public Invoice getInvoiceById(Integer id);
     public Invoice createInvoice(Invoice invoice);
     public Invoice updateInvoice(Invoice invoice);
-    public void deleteInvoice(Integer id);
+    public void deleteInvoice(Invoice invoice);
 }

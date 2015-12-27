@@ -14,6 +14,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.ws.rs.core.Response;
 import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.List;
@@ -91,7 +92,9 @@ public class InvoicesExcelWebService implements InvoicesExcelWebServiceIntf {
             addInvoiceAttributes(invoiceMasterSheet, invoice);
             file.close();
         } catch (Exception ex) {
-            throw new TempletreeException(ExceptionMessages.FILE_READ_ERROR, ex);
+            //throw new TempletreeException(ExceptionMessages.FILE_READ_ERROR, ex);
+            throw new TempletreeException(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode(), "test2", ExceptionMessages.FILE_READ_ERROR,
+                    ExceptionMessages.FILE_READ_ERROR);
         }
 
         invoice.setInvoicesItemsList(invoicesItemsList);

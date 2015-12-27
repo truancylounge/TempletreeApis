@@ -18,5 +18,7 @@ public final class ExceptionMessages {
     public static final String FILE_WRITE_ERROR = "File Write error";
     public static final String GENERIC_FILE_ERROR = "File I/O error occurred";
 
+    public static final String USER_NOT_FOUND = "User doesn't exist. Please login using correct username";
+
 
 }

@@ -8,6 +8,7 @@ import org.jasypt.salt.StringFixedSaltGenerator;
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
 
+import javax.ws.rs.core.Response;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.*;
@@ -62,7 +63,9 @@ public final class EncryptionUtil {
             return encode(templetreeAuthToken, UTF8_ENCODING);
         } catch (Exception ex) {
             LOGGER.error("Error during Token generation : ", ex);
-            throw new TempletreeException(ex.getMessage(), ex);
+            //throw new TempletreeException(ex.getMessage(), ex);
+            throw new TempletreeException(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode(), "TEST", "GenerateAccessTokenError",
+                    "GenerateAccessTokenError");
         }
     }
 

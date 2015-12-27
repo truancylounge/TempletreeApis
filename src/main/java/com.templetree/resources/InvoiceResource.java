@@ -65,4 +65,11 @@ public class InvoiceResource {
         System.out.print("Inside PUT Item. Updating Invoice with id: " + invoice.getId());
         return invoiceWebService.updateInvoice(invoice);
     }
+
+    @DELETE
+    @Produces(MediaType.APPLICATION_JSON)
+    public void deleteInvoice(Invoice invoice) {
+        System.out.print("Inside DELETE::Deleting Invoice: " + invoice.getInvoiceName());
+        invoiceWebService.deleteInvoice(invoice);
+    }
 }

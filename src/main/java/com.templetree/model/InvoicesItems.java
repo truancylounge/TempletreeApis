@@ -32,6 +32,8 @@ public class InvoicesItems {
     private Timestamp createdDate;
     @Column(name = "updatedDate")
     private Timestamp updatedDate;
+    @javax.persistence.Transient
+    private Action action = Action.I;
 
     @JsonBackReference
     @ManyToOne
@@ -112,5 +114,13 @@ public class InvoicesItems {
 
     public void setInvoice(Invoice invoice) {
         this.invoice = invoice;
+    }
+
+    public Action getAction() {
+        return action;
+    }
+
+    public void setAction(Action action) {
+        this.action = action;
     }
 }

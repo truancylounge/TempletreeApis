@@ -1,30 +1,31 @@
-package com.templetree.exception;
+package com.templetree.model;
 
-import org.slf4j.Logger;
-
-import java.util.Date;
-
-import static org.slf4j.LoggerFactory.getLogger;
+import com.templetree.exception.TempletreeException;
 
 /**
+ * Error Message entity which will be sent in the Response
+ *
  * @author Lalith Mannur
  */
-public class TempletreeException extends Exception {
-
-    private static final Logger LOGGER = getLogger(TempletreeException.class);
-
-    private static final String DEFAULT_MSG = "Templetree Exception";
-    private static final String TEMPLETREE_EXCEPTION_CODE = "TEMPLETREE_EXCEPTION";
+public class ErrorMessage {
 
     private Integer status;
     private String code;
+    private String message;
     private String developerMessage;
 
-    public TempletreeException(Integer status, String code, String message, String developerMessage ) {
-        super(message);
+    public ErrorMessage(Integer status, String code, String message, String developerMessage) {
         this.status = status;
         this.code = code;
+        this.message = message;
         this.developerMessage = developerMessage;
+    }
+
+    public ErrorMessage(TempletreeException ex) {
+        this.status = ex.getStatus();
+        this.code = ex.getCode();
+        this.message = ex.getMessage();
+        this.developerMessage = ex.getDeveloperMessage();
     }
 
     public Integer getStatus() {
@@ -41,6 +42,14 @@ public class TempletreeException extends Exception {
 
     public void setCode(String code) {
         this.code = code;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
     }
 
     public String getDeveloperMessage() {

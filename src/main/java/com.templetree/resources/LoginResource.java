@@ -49,18 +49,23 @@ public class LoginResource {
     @POST
     @Path("/authenticate")
     @Produces(MediaType.APPLICATION_JSON)
-    public User authenticateUser(User user) {
+    public User authenticateUser(User user) throws TempletreeException{
         System.out.println("Post Authenticate User");
         User userVo =  loginWebService.authenticateUser(user);
         userVo.setPassword("");
         if(userVo.getAuthenticated()) {
+
+            String templetreeAuthToken = EncryptionUtil.generateAccessToken(userVo.getUsername(), userVo.getRole(), appProperties.getProperty("app.login.delimiter"), appProperties);
+            userVo.setToken(templetreeAuthToken);
+
+            /*
             try {
                 String templetreeAuthToken = EncryptionUtil.generateAccessToken(userVo.getUsername(), userVo.getRole(), appProperties.getProperty("app.login.delimiter"), appProperties);
                 userVo.setToken(templetreeAuthToken);
 
             } catch (TempletreeException ex ) {
                 ex.printStackTrace();
-            }
+            } */
 
         }
         return userVo;

@@ -60,11 +60,15 @@ public class InvoiceDao implements InvoiceDaoIntf {
 
     @Override
     public Invoice updateInvoice(Invoice invoice) {
-        return null;
+        invoice.setUpdatedDate(new Timestamp(new Date().getTime()));
+        getCurrentSession().merge(invoice);
+        return  getInvoiceById(invoice.getId());
     }
 
+
     @Override
-    public void deleteInvoiceById(Integer id) {
+    public void deleteInvoiceById(Invoice invoice) {
+        getCurrentSession().delete(invoice);
 
     }
 }

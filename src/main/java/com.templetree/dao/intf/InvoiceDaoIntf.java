@@ -15,5 +15,5 @@ public interface InvoiceDaoIntf {
     public List<Invoice> insertInvoice(List<Invoice> invoices);
     public Integer insertInvoice(Invoice invoice);
     public Invoice updateInvoice(Invoice invoice);
-    public void deleteInvoiceById(Integer id);
+    public void deleteInvoiceById(Invoice invoice);
 }
