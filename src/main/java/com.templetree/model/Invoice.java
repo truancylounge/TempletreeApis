@@ -21,6 +21,8 @@ public class Invoice {
     private Integer id;
     @Column(name = "invoiceName")
     private String invoiceName;
+    @Column(name = "invoiceNumber")
+    private String invoiceNumber;
     @Column(name = "subTotal")
     private Double subTotal;
     @Column(name = "shipping")
@@ -33,6 +35,8 @@ public class Invoice {
     private Timestamp createdDate;
     @Column(name = "updatedDate")
     private Timestamp updatedDate;
+    @Column(name = "invoiceDate")
+    private Timestamp invoiceDate;
 
     @JsonManagedReference
     @OneToMany(cascade=CascadeType.ALL, mappedBy="invoice")
@@ -112,5 +116,21 @@ public class Invoice {
 
     public void setInvoicesItemsList(List<InvoicesItems> invoicesItemsList) {
         this.invoicesItemsList = invoicesItemsList;
+    }
+
+    public String getInvoiceNumber() {
+        return invoiceNumber;
+    }
+
+    public void setInvoiceNumber(String invoiceNumber) {
+        this.invoiceNumber = invoiceNumber;
+    }
+
+    public Timestamp getInvoiceDate() {
+        return invoiceDate;
+    }
+
+    public void setInvoiceDate(Timestamp invoiceDate) {
+        this.invoiceDate = invoiceDate;
     }
 }

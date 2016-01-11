@@ -1,6 +1,8 @@
 package com.templetree.service;
 
 import com.templetree.dao.intf.LoginDaoIntf;
+import com.templetree.exception.ExceptionMessages;
+import com.templetree.exception.TempletreeException;
 import com.templetree.model.Role;
 import com.templetree.model.User;
 import com.templetree.service.intf.LoginWebServiceIntf;
@@ -9,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import javax.ws.rs.core.Response;
 import java.sql.Timestamp;
 import java.util.Arrays;
 import java.util.Date;
@@ -26,8 +29,13 @@ public class LoginWebService implements LoginWebServiceIntf {
     private LoginDaoIntf loginDao;
 
     @Override
-    public User authenticateUser(User user) {
+    public User authenticateUser(User user) throws TempletreeException {
         User userDb =  loginDao.getUserCredentials(user.getUsername());
+        if (userDb == null) {
+            System.out.println("User doesn't exist in the DB");
+            throw new TempletreeException(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode(), "TEST3", ExceptionMessages.USER_NOT_FOUND,
+                    ExceptionMessages.USER_NOT_FOUND);
+        }
         if (EncryptionUtil.getHash(user.getPassword()).equals(userDb.getPassword())
                 /*&& user.getRole() == userDb.getRole() */) {
             user.setAuthenticated(Boolean.TRUE);

@@ -11,9 +11,10 @@ import java.util.List;
  */
 public interface InvoiceDaoIntf {
     public Invoice getInvoiceById(Integer id);
+    public Invoice getInvoiceByInvoiceName(String invoiceName);
     public List<Invoice> getAllInvoices();
     public List<Invoice> insertInvoice(List<Invoice> invoices);
     public Integer insertInvoice(Invoice invoice);
     public Invoice updateInvoice(Invoice invoice);
-    public void deleteInvoiceById(Integer id);
+    public void deleteInvoiceById(Invoice invoice);
 }

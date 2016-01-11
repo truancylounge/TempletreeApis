@@ -107,7 +107,7 @@ public class Item {
     }
 
     public void minusQuantity(Integer quantity) {
-        this.quantity = (this.quantity == null) ? quantity : (this.quantity - quantity);
+        this.quantity = (this.quantity == null) ? -quantity : (this.quantity - quantity);
     }
 
     public Timestamp getCreatedDate() {
