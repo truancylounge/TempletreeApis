@@ -30,6 +30,9 @@ CREATE TABLE templetree.invoices (
   UNIQUE KEY `unique` (`invoiceName`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
+ALTER TABLE templetree.invoices ADD COLUMN `invoiceNumber` varchar(255);  
+ALTER TABLE templetree.invoices ADD COLUMN `invoiceDate` timestamp NULL DEFAULT NULL; 
+
 CREATE TABLE templetree.invoicesItems (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `invoiceId` int(10) unsigned NOT NULL,
@@ -104,14 +107,17 @@ CREATE TABLE templetree.attributes(
   PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
-  
+
   
 
 -- ROLES
 INSERT INTO  `templetree`.`attributes`(`id`,`type`,`tkey`,`value`,`createdDate`,`updatedDate`) VALUES (null,'roles','ADMIN', 'ADMIN',now(), null);
 INSERT INTO  `templetree`.`attributes`(`id`,`type`,`tkey`,`value`,`createdDate`,`updatedDate`) VALUES (null,'roles','GUEST', 'GUEST',now(), null);
 INSERT INTO  `templetree`.`attributes`(`id`,`type`,`tkey`,`value`,`createdDate`,`updatedDate`) VALUES (null,'roles','EDITOR', 'EDITOR',now(), null);
-  
+-- Guest user creds
+INSERT INTO `templetree`.`users`(`username`, `password`, `role`, `createdDate`,`updatedDate` )
+VALUES ('guest','n4bQgYhMfWWaL+qgxVrQFaO/TxsrC4Is0V1sFbDwCgg=', 'ADMIN',now(), now());
+
   
   
   

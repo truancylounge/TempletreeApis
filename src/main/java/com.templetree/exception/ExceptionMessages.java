@@ -22,5 +22,7 @@ public final class ExceptionMessages {
     public static final String TOKEN_ENCYPTION_ERROR = "Token Encryption Error";
     public static final String TOKEN_NOT_FOUND = "Token Not Found";
 
+    public static final String INVOICE_ALREADY_EXISTS = "Invoice Already Exists";
+
 
 }

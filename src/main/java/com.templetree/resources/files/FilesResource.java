@@ -14,6 +14,7 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import java.io.*;
 import java.util.Properties;
 
@@ -64,9 +65,9 @@ public class FilesResource {
     @Path("/upload/invoices")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.MULTIPART_FORM_DATA)
-    public Invoice uploadInvoices(
+    public Invoice uploadInvoices (
             @FormDataParam("uploadFile") InputStream fileInputStream,
-            @FormDataParam("uploadFile") FormDataContentDisposition fileFormDataContentDisposition) {
+            @FormDataParam("uploadFile") FormDataContentDisposition fileFormDataContentDisposition) throws TempletreeException {
 
         System.out.println(System.getProperty("java.class.path"));
 
@@ -84,11 +85,8 @@ public class FilesResource {
 
             invoice =  invoicesExcelWebService.readExcel(uploadFilePath, fileName);
         }
-        catch(IOException | TempletreeException ioe){
+        catch(IOException  ioe){
             ioe.printStackTrace();
-        }
-        finally{
-            // release resources, if any
         }
 
         return invoice;

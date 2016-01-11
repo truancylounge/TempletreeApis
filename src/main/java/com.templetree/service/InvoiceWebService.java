@@ -39,12 +39,24 @@ public class InvoiceWebService implements InvoiceWebServiceIntf {
     }
 
     @Override
+    public Boolean hasInvoiceBeenUploaded(String invoiceName) {
+        Boolean invoiceExists = Boolean.FALSE;
+        Invoice invoiceDb = invoiceDao.getInvoiceByInvoiceName(invoiceName);
+        if(invoiceDb != null) {
+            invoiceExists = Boolean.TRUE;
+        }
+
+        return invoiceExists;
+    }
+
+    @Override
     public Invoice getInvoiceById(Integer id) {
         return invoiceDao.getInvoiceById(id);
     }
 
     @Override
     public Invoice createInvoice(Invoice invoice) {
+
         List<Item> items = itemDao.getAllItems();
 
         List<Item> itemsToBeCreated = new ArrayList<Item>();
@@ -52,7 +64,7 @@ public class InvoiceWebService implements InvoiceWebServiceIntf {
         List<InvoicesItems> invoicesItemsList = invoice.getInvoicesItemsList();
 
         for(InvoicesItems invoicesItems : invoicesItemsList) {
-            String barcode = invoicesItems.getBarcode();
+            String barcode = invoicesItems.getBarcode().toUpperCase();
             Boolean barcodeExists = Boolean.FALSE;
             for(Item item : items) {
                 if(item.getBarcode().equals(barcode))

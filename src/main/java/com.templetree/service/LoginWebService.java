@@ -32,6 +32,7 @@ public class LoginWebService implements LoginWebServiceIntf {
     public User authenticateUser(User user) throws TempletreeException {
         User userDb =  loginDao.getUserCredentials(user.getUsername());
         if (userDb == null) {
+            System.out.println("User doesn't exist in the DB");
             throw new TempletreeException(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode(), "TEST3", ExceptionMessages.USER_NOT_FOUND,
                     ExceptionMessages.USER_NOT_FOUND);
         }

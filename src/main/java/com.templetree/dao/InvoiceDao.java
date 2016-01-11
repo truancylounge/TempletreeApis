@@ -4,6 +4,7 @@ import com.templetree.dao.intf.InvoiceDaoIntf;
 import com.templetree.model.Invoice;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -29,6 +30,13 @@ public class InvoiceDao implements InvoiceDaoIntf {
     @Override
     public Invoice getInvoiceById(Integer id) {
         return (Invoice) getCurrentSession().get(Invoice.class, id);
+    }
+
+    @Override
+    public Invoice getInvoiceByInvoiceName(String invoiceName) {
+        return (Invoice) getCurrentSession().createCriteria(Invoice.class)
+                .add(Restrictions.eq("invoiceName", invoiceName))
+                .uniqueResult();
     }
 
     @Override

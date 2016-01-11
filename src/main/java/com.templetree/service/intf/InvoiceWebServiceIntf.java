@@ -9,6 +9,7 @@ import java.util.List;
  */
 public interface InvoiceWebServiceIntf {
     public List<Invoice> getAllInvoices();
+    public Boolean hasInvoiceBeenUploaded(String invoiceName);
     public Invoice getInvoiceById(Integer id);
     public Invoice createInvoice(Invoice invoice);
     public Invoice updateInvoice(Invoice invoice);

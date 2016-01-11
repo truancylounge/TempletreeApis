@@ -16,6 +16,9 @@ import org.springframework.stereotype.Service;
 
 import javax.ws.rs.core.Response;
 import java.io.FileInputStream;
+import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,6 +48,12 @@ public class InvoicesExcelWebService implements InvoicesExcelWebServiceIntf {
             System.out.println("Importing sheet : " + workbook.getSheetName(0));
 
             invoice.setInvoiceName(filename);
+
+            if(invoiceWebService.hasInvoiceBeenUploaded(filename)) {
+                throw new TempletreeException(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode(), "ExcelParserError", ExceptionMessages.INVOICE_ALREADY_EXISTS,
+                        filename + ":" + ExceptionMessages.INVOICE_ALREADY_EXISTS);
+            }
+
             Sheet invoiceMasterSheet = workbook.getSheetAt(0);
 
             for(Row myRow : invoiceMasterSheet) {
@@ -93,8 +102,9 @@ public class InvoicesExcelWebService implements InvoicesExcelWebServiceIntf {
             file.close();
         } catch (Exception ex) {
             //throw new TempletreeException(ExceptionMessages.FILE_READ_ERROR, ex);
-            throw new TempletreeException(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode(), "test2", ExceptionMessages.FILE_READ_ERROR,
-                    ExceptionMessages.FILE_READ_ERROR);
+            System.out.println("Error parsing Invoice File: " + ex.getMessage());
+            throw new TempletreeException(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode(), "ExcelParserError", ExceptionMessages.FILE_READ_ERROR,
+                    ex.getMessage());
         }
 
         invoice.setInvoicesItemsList(invoicesItemsList);
@@ -115,24 +125,39 @@ public class InvoicesExcelWebService implements InvoicesExcelWebServiceIntf {
     private void addInvoiceAttributes(Sheet invoiceMasterSheet, Invoice invoice) {
 
         for(Row myRow : invoiceMasterSheet) {
+            // Retrieve the InvoiceDate and Invoice Number from first row.
+            if(myRow.getRowNum()==0 && myRow.getCell(7).getCellType() == Cell.CELL_TYPE_STRING ) {
+                String invoiceNumber = myRow.getCell(7).getStringCellValue();
+                String[] str = invoiceNumber.split("\\n");
+
+                invoice.setInvoiceNumber(str[1].substring(str[1].lastIndexOf(":") + 1).trim());
+
+                SimpleDateFormat dateFormat = new SimpleDateFormat("dd-mm-yy");
+                try {
+                    invoice.setInvoiceDate(new Timestamp(dateFormat.parse(str[0].substring(str[0].lastIndexOf(":") + 1).trim()).getTime()));
+                } catch (ParseException ex) {
+                    ex.printStackTrace();
+                }
+            }
 
             if (isRowEmpty(myRow)) {
                 continue;
             }
-            if (myRow.getCell(4).getCellType() == Cell.CELL_TYPE_STRING && myRow.getCell(4).getStringCellValue().equals("Sub Total")) {
-                invoice.setSubTotal(myRow.getCell(5).getNumericCellValue());
+
+            if (myRow.getCell(4).getCellType() == Cell.CELL_TYPE_STRING && myRow.getCell(4).getStringCellValue().trim().toUpperCase().equals("SUB TOTAL")) {
+                invoice.setSubTotal(myRow.getCell(7).getNumericCellValue());
             }
 
-            if (myRow.getCell(4).getCellType() == Cell.CELL_TYPE_STRING && myRow.getCell(4).getStringCellValue().equals("Shipping")) {
-                invoice.setShipping(myRow.getCell(5).getNumericCellValue());
+            if (myRow.getCell(4).getCellType() == Cell.CELL_TYPE_STRING && myRow.getCell(4).getStringCellValue().trim().toUpperCase().equals("SHIPPING")) {
+                invoice.setShipping(myRow.getCell(7).getNumericCellValue());
             }
 
-            if (myRow.getCell(4).getCellType() == Cell.CELL_TYPE_STRING && myRow.getCell(4).getStringCellValue().equals("Packing")) {
-                invoice.setPacking(myRow.getCell(5).getNumericCellValue());
+            if (myRow.getCell(4).getCellType() == Cell.CELL_TYPE_STRING && myRow.getCell(4).getStringCellValue().trim().toUpperCase().equals("PACKING")) {
+                invoice.setPacking(myRow.getCell(7).getNumericCellValue());
             }
 
-            if (myRow.getCell(4).getCellType() == Cell.CELL_TYPE_STRING && myRow.getCell(4).getStringCellValue().equals("Grand Total")) {
-                invoice.setGrandTotal(myRow.getCell(5).getNumericCellValue());
+            if (myRow.getCell(4).getCellType() == Cell.CELL_TYPE_STRING && myRow.getCell(4).getStringCellValue().trim().toUpperCase().equals("GRAND TOTAL")) {
+                invoice.setGrandTotal(myRow.getCell(7).getNumericCellValue());
             }
         }
     }

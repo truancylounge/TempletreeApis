@@ -51,6 +51,9 @@ public class AuthFilter implements ContainerRequestFilter {
         System.out.println("Request URI Absolute Path: " + absolutePath);
         System.out.println("Request URI Relative Path: " + requestUri);
 
+        System.out.println("App.login.url property attribute: " + appProperties.getProperty("app.login.url"));
+
+
         if(requestUri.contains(appProperties.getProperty("app.login.url"))) {
             System.out.println("Hitting Login url --> Authenticating");
             return;
@@ -61,7 +64,6 @@ public class AuthFilter implements ContainerRequestFilter {
         String token = queryParameters.getFirst("token");
         System.out.println("Token is : " + token); */
         String token = containerRequestContext.getHeaderString(HttpHeaders.AUTHORIZATION);
-        User user = new User();
 
         if(token != null) {
             String decryptedToken = EncryptionUtil.decryptString(URLDecoder.decode(token, "UTF-8"), appProperties);
