@@ -65,12 +65,26 @@ public class ItemDao implements ItemDaoIntf {
     }
 
     @Override
-    public List<Item> insertItems(List<Item> items) {
+    public List<Item> insertItems(List<Item> items ) {
+
         List<Item> dbItems = getAllItems();
-        items.removeAll(dbItems);
+
+        List<Item> updatedItems = new ArrayList<>(items);
+        updatedItems.retainAll(dbItems);
+
+        updatedItems.forEach(item ->  {
+            Item dbItem = this.getItemByBarcode(item.getBarcode());
+            dbItem.setQuantity(item.getQuantity());
+            getCurrentSession().update(dbItem);
+        });
+        System.out.println("Number of Items Updated: " + updatedItems.size());
+
+
+        List<Item> insertedItems = new ArrayList<>(items);
+        insertedItems.removeAll(dbItems);
 
         List<Item> returnedItems = new ArrayList<Item>();
-        for(Item item : items) {
+        for(Item item : insertedItems) {
             item.setCreatedDate(new Timestamp(new Date().getTime()));
             item.setUpdatedDate(new Timestamp(new Date().getTime()));
             Integer i = Integer.parseInt(getCurrentSession().save(item).toString());
@@ -80,9 +94,11 @@ public class ItemDao implements ItemDaoIntf {
             Item itemDb = (Item) getCurrentSession().get(Item.class, i);
             returnedItems.add(itemDb);
         }
-        System.out.println("Number of Items inserted: " + items.size());
+        System.out.println("Number of Items inserted: " + insertedItems.size());
 
         return returnedItems;
+
+
 
     }
 

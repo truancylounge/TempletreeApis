@@ -118,6 +118,8 @@ INSERT INTO  `templetree`.`attributes`(`id`,`type`,`tkey`,`value`,`createdDate`,
 INSERT INTO `templetree`.`users`(`username`, `password`, `role`, `createdDate`,`updatedDate` )
 VALUES ('guest','n4bQgYhMfWWaL+qgxVrQFaO/TxsrC4Is0V1sFbDwCgg=', 'ADMIN',now(), now());
 
+-- Billing Invoice items changing column purchase price to selling price
+ALTER TABLE templetree.billingInvoicesItems CHANGE COLUMN `purchasePrice` `salesPrice` DECIMAL(10,2);
   
   
   

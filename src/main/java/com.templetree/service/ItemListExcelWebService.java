@@ -72,6 +72,12 @@ public class ItemListExcelWebService implements ExcelWebServiceIntf {
                             else
                                 item.setPurchasePrice(Double.parseDouble(myCell.getStringCellValue().trim()));
                             break;
+                        case 6:
+                            if (myCell.getCellType() == Cell.CELL_TYPE_NUMERIC)
+                                item.setQuantity((int) myCell.getNumericCellValue());
+                            else
+                                item.setQuantity(Integer.parseInt(myCell.getStringCellValue().trim()));
+                            break;
                     }
                 }
                 items.add(item);

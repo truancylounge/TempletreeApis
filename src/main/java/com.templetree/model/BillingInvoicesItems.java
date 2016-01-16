@@ -23,8 +23,8 @@ public class BillingInvoicesItems {
     private String barcode;
     @Column(name = "itemName")
     private String itemName;
-    @Column(name = "purchasePrice")
-    private Double purchasePrice;
+    @Column(name = "salesPrice")
+    private Double salesPrice;
     @Column(name = "quantity")
     private Integer quantity;
     @Column(name = "total")
@@ -67,12 +67,12 @@ public class BillingInvoicesItems {
         this.itemName = itemName;
     }
 
-    public Double getPurchasePrice() {
-        return purchasePrice;
+    public Double getSalesPrice() {
+        return salesPrice;
     }
 
-    public void setPurchasePrice(Double purchasePrice) {
-        this.purchasePrice = purchasePrice;
+    public void setSalesPrice(Double salesPrice) {
+        this.salesPrice = salesPrice;
     }
 
     public Integer getQuantity() {
