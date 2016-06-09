@@ -35,8 +35,13 @@ public class ResponseFilter implements ContainerResponseFilter {
     @Override
     public void filter(ContainerRequestContext containerRequestContext, ContainerResponseContext containerResponseContext) throws IOException {
         containerResponseContext.getHeaders().add("Access-Control-Expose-Headers", appProperties.getProperty("app.login.token.headername"));
+        containerResponseContext.getHeaders().add("Access-Control-Allow-Origin", "*");
+        containerResponseContext.getHeaders().add("Access-Control-Allow-Headers", "Content-Type, Access-Control-Allow-Headers, Authorization, X-Templteree-Auth-Token");
+        containerResponseContext.getHeaders().add("Access-Control-Allow-Methods", "GET, POST, OPTIONS, DELETE, PUT, HEAD");
+
         if(!containerRequestContext.getUriInfo().getPath().contains(appProperties.getProperty("app.login.url"))
-            && (containerResponseContext.getStatus() == 200 || containerResponseContext.getStatus() == 204  ) ) {
+            && (containerResponseContext.getStatus() == 200 || containerResponseContext.getStatus() == 204 ) &&
+                !containerRequestContext.getMethod().equals("OPTIONS")) {
             System.out.println("Context Response filter - Adding token");
 
             String token = containerRequestContext.getHeaderString(HttpHeaders.AUTHORIZATION);

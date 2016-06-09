@@ -52,10 +52,13 @@ public class AuthFilter implements ContainerRequestFilter {
         System.out.println("Request URI Relative Path: " + requestUri);
 
         System.out.println("App.login.url property attribute: " + appProperties.getProperty("app.login.url"));
+        System.out.println("Method Type: " + containerRequestContext.getMethod());
 
 
         if(requestUri.contains(appProperties.getProperty("app.login.url"))) {
             System.out.println("Hitting Login url --> Authenticating");
+            return;
+        } else if(containerRequestContext.getMethod().equals("OPTIONS")) {
             return;
         }
         /*
